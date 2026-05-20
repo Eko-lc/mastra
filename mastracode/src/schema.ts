@@ -24,6 +24,8 @@ export const stateSchema = z.object({
   // would error on multimodal input. Placeholder text lines for filtered
   // attachments are kept either way.
   observeAttachments: z.boolean().default(true),
+  // Experimental Subconscious background psyches for Observational Memory.
+  subconsciousEnabled: z.boolean().default(false),
   // Observational Memory scope — 'thread' (per-conversation) or 'resource' (shared across threads)
   omScope: z.enum(['thread', 'resource']).optional(),
   // Thinking level for model reasoning effort

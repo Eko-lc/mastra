@@ -11,6 +11,7 @@ import type { z } from 'zod';
 import { loadSettings } from '../onboarding/settings.js';
 import type { stateSchema } from '../schema';
 import { TOOL_NAME_OVERRIDES } from '../tool-names.js';
+import { getSubconsciousWorkspacePath } from './subconscious-workspace.js';
 
 // =============================================================================
 // Sandbox Environment
@@ -104,9 +105,11 @@ export function getDynamicWorkspace({ requestContext, mastra }: { requestContext
   const projectPath = path.resolve(rawProjectPath);
   const workspaceId = `${WORKSPACE_ID_PREFIX}-${projectPath}`;
   const sandboxPaths = state?.sandboxAllowedPaths ?? [];
+  const subconsciousPath = getSubconsciousWorkspacePath(ctx?.resourceId ?? 'default');
   const allowedPaths = [
     ...allowedSkillPaths,
     ...DEFAULT_ALLOWED_PATHS,
+    subconsciousPath,
     ...sandboxPaths.map((p: string) => path.resolve(p)),
   ];
   const isPlanMode = modeId === 'plan';

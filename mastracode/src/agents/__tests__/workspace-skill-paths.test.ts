@@ -29,6 +29,8 @@ describe('workspace skill path definitions', () => {
     const source = fs.readFileSync(path.join(cwd, 'src/agents/workspace.ts'), 'utf-8');
 
     expect(source).toMatch(/const allowedPaths = \[\s*\.\.\.allowedSkillPaths/);
+    expect(source).toContain('const subconsciousPath = getSubconsciousWorkspacePath');
+    expect(source).toContain('subconsciousPath,');
     expect(source).toContain('...(skillPaths.length > 0 ? { skills: skillPaths } : {}),');
   });
 

@@ -23,6 +23,7 @@ export interface OMSettingsConfig {
   reflectionThreshold: number;
   cavemanObservations: boolean;
   observeAttachments: boolean;
+  subconsciousEnabled: boolean;
 }
 
 export interface OMSettingsCallbacks {
@@ -32,6 +33,7 @@ export interface OMSettingsCallbacks {
   onReflectionThresholdChange: (value: number) => void;
   onCavemanObservationsChange: (enabled: boolean) => void;
   onObserveAttachmentsChange: (enabled: boolean) => void;
+  onSubconsciousEnabledChange: (enabled: boolean) => void;
   onClose: () => void;
 }
 
@@ -337,6 +339,28 @@ export class OMSettingsComponent extends Box implements Focusable {
             {
               onDescription: 'Forward attachments to the observer',
               offDescription: 'Drop attachments (placeholder text only)',
+            },
+          ),
+      },
+      {
+        id: 'subconscious-enabled',
+        label: 'Subconscious (experimental)',
+        description:
+          'Optional. Run background psyche agents from OM extraction signals and write durable ' +
+          'workspace notes under ~/.mastracode/subconscious. Off by default',
+        currentValue: config.subconsciousEnabled ? 'On' : 'Off',
+        submenu: (_currentValue, done) =>
+          new BooleanSubmenu(
+            config.subconsciousEnabled,
+            value => {
+              config.subconsciousEnabled = value;
+              callbacks.onSubconsciousEnabledChange(value);
+              done(value ? 'On' : 'Off');
+            },
+            () => done(),
+            {
+              onDescription: 'Enable experimental background Subconscious psyches',
+              offDescription: 'Disable Subconscious; OM keeps standard observation/reflection only',
             },
           ),
       },
